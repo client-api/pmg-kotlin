@@ -9,18 +9,16 @@
 // Or compile + run with kotlin CLI directly.
 package examples
 
-import com.clientapi.pmg.Pve
+import com.clientapi.pmg.apis.NodesApi
 import com.clientapi.pmg.infrastructure.ApiClient
 
 fun main() {
     val host = System.getenv("PMG_HOST") ?: "https://localhost:8006"
     ApiClient.apiKey["Authorization"] = System.getenv("PMG_TOKEN") ?: ""
 
-    val pmg = Pve(basePath = "$host/api2/json")
-    val response = pmg.nodes().nodesGetNodes()
-    val nodes = response.data ?: emptyList()
-    println("Found ${nodes.size} node(s):")
-    for (n in nodes) {
-        println("  - ${n.node} (status=${n.status}, cpu=${n.cpu}, mem=${n.mem}/${n.maxmem})")
-    }
+    // Non-PVE products: the upstream apidoc declares this endpoint
+    // `returns: { type: null }`, so `response.data` is untyped. Print
+    // the whole response and let the user see what came back.
+    val response = NodesApi(basePath = "$host/api2/json").nodesGetNodes()
+    println("Response: $response")
 }
