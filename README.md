@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.clientapi:pmg:2026.5.23")
+    implementation("com.clientapi:pmg:2026.5.24")
 }
 ```
 
